@@ -3,11 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
-# --- CONFIGURATION ---
+
 SERPAPI_KEY = st.secrets["SERPAPI_KEY"]
 COHERE_API_KEY = st.secrets["COHERE_API_KEY"]
 
-# --- SEARCH USING SERPAPI ---
 def google_search(query, num_results=5):
     search_url = "https://serpapi.com/search"
     params = {
@@ -26,7 +25,6 @@ def google_search(query, num_results=5):
         st.error(f"[Search Error]: {e}")
         return []
 
-# --- SCRAPE WEB PAGE CONTENT ---
 def scrape_content(url):
     try:
         headers = {"User-Agent": "Mozilla/5.0"}
@@ -39,7 +37,6 @@ def scrape_content(url):
         st.error(f"[Scraping error at {url}]: {e}")
         return ""
 
-# --- SUMMARIZE USING COHERE ---
 def summarize_with_cohere(text):
     try:
         url = "https://api.cohere.ai/v1/summarize"
@@ -62,12 +59,10 @@ def summarize_with_cohere(text):
         st.error(f"[Summarization error]: {e}")
         return "[Error generating summary]"
 
-# --- SYNTHESIZE MULTIPLE SUMMARIES ---
 def synthesize_information(summaries):
     combined_text = "\n".join(summaries)
     return summarize_with_cohere(combined_text)
 
-# --- STREAMLIT APP ---
 def main():
     st.set_page_config(page_title="🧠 AI Web Research Agent", layout="wide")
     st.title("🧠 AI Web Research Agent")
