@@ -4,8 +4,8 @@ from bs4 import BeautifulSoup
 import time
 
 # --- CONFIGURATION ---
-SERPAPI_KEY = "3ca3beb27a7c2f9d75e4ba73f4afabecbbb8fcd200f7938496b419a14d7e181e"
-COHERE_API_KEY = "3LHrrGJ5XyITCibcsqdRz23T05fAKlRmYpnrITx5"
+SERPAPI_KEY = st.secrets["SERPAPI_KEY"]
+COHERE_API_KEY = st.secrets["COHERE_API_KEY"]
 
 # --- SEARCH USING SERPAPI ---
 def google_search(query, num_results=5):
