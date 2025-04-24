@@ -97,13 +97,13 @@ def main():
                 time.sleep(2)
 
         if summaries:
-            st.success("✅ Research Completed!")
+            st.success("Research Completed!")
 
-            st.subheader("📚 Individual Source Summaries:")
+            st.subheader("Individual Source Summaries:")
             for i, summary in enumerate(summaries, 1):
                 st.markdown(f"**Source {i}**: {summary}")
 
-            st.subheader("🧠 Synthesized Report:")
+            st.subheader("Synthesized Report:")
             final_report = synthesize_information(summaries)
             st.write(final_report)
         else:
