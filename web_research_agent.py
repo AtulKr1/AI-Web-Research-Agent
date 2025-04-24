@@ -62,15 +62,20 @@ def summarize_with_cohere(text):
         st.error(f"[Summarization error]: {e}")
         return "[Error generating summary]"
 
+# --- SYNTHESIZE MULTIPLE SUMMARIES ---
+def synthesize_information(summaries):
+    combined_text = "\n".join(summaries)
+    return summarize_with_cohere(combined_text)
+
 # --- STREAMLIT APP ---
 def main():
-    st.set_page_config(page_title="Web Research Agent", layout="wide")
-    st.title("🌐 Web Research Agent")
-    st.subheader("Automated research with Google Search + Summarization")
+    st.set_page_config(page_title="🧠 AI Web Research Agent", layout="wide")
+    st.title("🧠 AI Web Research Agent")
+    st.markdown("Enter a research topic below, and let AI fetch and summarize the web for you.")
 
-    query = st.text_input("Enter your research topic", placeholder="e.g., Social Media: Boon or Bane")
+    query = st.text_input("🔍 Enter your research topic:")
 
-    if st.button("🔍 Run Research"):
+    if st.button("Run Research"):
         if not query:
             st.warning("Please enter a topic.")
             return
@@ -88,13 +93,21 @@ def main():
                 if not content:
                     continue
                 summary = summarize_with_cohere(content)
-                summaries.append((url, summary))
+                summaries.append(summary)
                 time.sleep(2)
 
-        st.success("✅ Research Completed!")
-        for i, (url, summary) in enumerate(summaries):
-            st.markdown(f"---\n### 🔹 Source {i+1}\n🔗 [{url}]({url})")
-            st.markdown(summary)
+        if summaries:
+            st.success("✅ Research Completed!")
+
+            st.subheader("📚 Individual Source Summaries:")
+            for i, summary in enumerate(summaries, 1):
+                st.markdown(f"**Source {i}**: {summary}")
+
+            st.subheader("🧠 Synthesized Report:")
+            final_report = synthesize_information(summaries)
+            st.write(final_report)
+        else:
+            st.error("No relevant summaries found.")
 
 if __name__ == "__main__":
     main()
